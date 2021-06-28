@@ -3,47 +3,53 @@ import './sass/main.scss';
 import menu from './menu.json';
 import menuTemplates from './templates/menu.hbs';
 
-// console.log(menu);
-// console.log(menuTemplates(menu));
 
 const menuEl = document.querySelector('.js-menu');
 menuEl.innerHTML = menuTemplates(menu);
 
 const themeSwitch = document.querySelector('#theme-switch-toggle');
-console.log(themeSwitch);
 const bodyEl = document.querySelector('body');
 
-// let isLightTheme = true;
-// let theme = 'light';
-// themeSwitch.addEventListener('change', onThemeSwitch);
 
+const Theme = {
+  LIGHT: 'light-theme',
+  DARK: 'dark-theme',
+};
 
+themeSwitch.addEventListener('change', onThemeChange);
 
-let isLightTheme = true;
+onThemeStorage();
 
-themeSwitch.addEventListener('change', () => {
-    if (isLightTheme) {
-        bodyEl.classList.add('dark-theme');
-        bodyEl.classList.remove('light-theme');
-    // ... dark
+function onThemeChange () {
+    if (themeSwitch.checked === true) {
+    bodyEl.classList.add(Theme.DARK);
+    bodyEl.classList.remove(Theme.LIGHT);
+      localStorage.setItem('theme', 'dark-theme');
+       //dark  
+      
   } else {
     // ... light
-        bodyEl.classList.add('light-theme');
-         bodyEl.classList.remove('dark-theme');
+      bodyEl.classList.add(Theme.LIGHT);
+      bodyEl.classList.remove(Theme.DARK);
+       localStorage.setItem('theme', 'light-theme');     
   }
 
-  isLightTheme = !isLightTheme;
-});
+   
+};
 
-// function onThemeSwitch (event) {
-//     // event.preventDefault();
-//     if (isLightTheme) {
-//     //     bodyEl.classList.add('light-theme');
-//     //     bodyEl.classList.remove('dark-theme');
-//     // //  theme = 'dark'
-//     } else {
-//         isLightTheme = !isLightTheme; 
-//             // bodyEl.classList.add('dark-theme');
-//         }
-//     //   bodyEl.classList.add('dark-theme');
-// };
+function onThemeStorage() {
+    const themeStorage = localStorage.getItem('theme');
+      if (themeStorage === 'dark-theme') {
+            bodyEl.classList.add(Theme.DARK);
+            themeSwitch.checked = true;
+        }
+        else  {
+          // else if (themeStorage === 'light-theme') {
+          bodyEl.classList.add(Theme.LIGHT);
+          
+        }
+          
+      
+      
+};
+  
