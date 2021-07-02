@@ -1,55 +1,36 @@
 import "modern-normalize";
-import './sass/main.scss';
-import menu from './menu.json';
-import menuTemplates from './templates/menu.hbs';
+import "./sass/main.scss";
+import template from './templates/menu.hbs';
+import data from './menu.json';
+import { setlocalStorage, getLocalStorage } from "./templates/utils/utils";
 
 
-const menuEl = document.querySelector('.js-menu');
-menuEl.innerHTML = menuTemplates(menu);
+let tmpUserNameState = '';
 
-const themeSwitch = document.querySelector('#theme-switch-toggle');
-const bodyEl = document.querySelector('body');
+window.onload = () => {
+  const container = document.getElementById('container');
+  container.innerHTML = template(data);
+  const isName = getLocalStorage();
 
-
-const Theme = {
-  LIGHT: 'light-theme',
-  DARK: 'dark-theme',
-};
-
-themeSwitch.addEventListener('change', onThemeChange);
-
-onThemeStorage();
-
-function onThemeChange () {
-    if (themeSwitch.checked === true) {
-    bodyEl.classList.add(Theme.DARK);
-    bodyEl.classList.remove(Theme.LIGHT);
-      localStorage.setItem('theme', 'dark-theme');
-       //dark  
-      
+  if (isName) {
+    const newData = Object.assign({}, data, { name: isName });
+    container.innerHTML = template(newData);
   } else {
-    // ... light
-      bodyEl.classList.add(Theme.LIGHT);
-      bodyEl.classList.remove(Theme.DARK);
-       localStorage.setItem('theme', 'light-theme');     
-  }
+    container.innerHTML = template(data);
+    const nameInput = document.getElementById("nameInput");
+  const saveUser = document.getElementById("saveUser");
 
-   
-};
+    nameInput.addEventListener('input', (e) => {
+      // console.log(e.target.value);
+      tmpUserNameState = e.target.value;
+    });
+    saveUser.addEventListener('click', (e) => {
+      setlocalStorage(tmpUserNameState);
+      const newData = Object.assign({}, data, { name: tmpUserNameState });
+      container.innerHTML = template(newData);
+    });
+  };
 
-function onThemeStorage() {
-    const themeStorage = localStorage.getItem('theme');
-      if (themeStorage === 'dark-theme') {
-            bodyEl.classList.add(Theme.DARK);
-            themeSwitch.checked = true;
-        }
-        else  {
-          // else if (themeStorage === 'light-theme') {
-          bodyEl.classList.add(Theme.LIGHT);
-          
-        }
-          
-      
-      
-};
+
   
+};

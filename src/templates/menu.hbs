@@ -1,50 +1,23 @@
-{{#each this}}
-
-<li class="menu__item">
-   
-    <article class="card">
-        <img src="{{image}}"
-            alt="{{name}}" class="card__image" />
-        <div class="card__content">
-            <h2 class="card__name">{{name}}</h2>
-            <p class="card__price">
-                <i class="material-icons"> monetization_on </i>
-                {{price}} кредитов
-            </p>
-
-            <p class="card__descr">
-              {{description}}
-            </p>
-
-            <ul class="tag-list">
-                {{#each ingredients}}
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}}
-                {{!-- {{#each ingredients}}
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}} --}}
-                {{!-- {{#each ingredients}}
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}}
-                {{#each ingredients}}
-
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}}
-                {{#each ingredients}}
-
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}}
-                {{#each ingredients}}
-
-                <li class="tag-list__item">{{this}}</li>
-                {{/each}} --}}
-            </ul>
-        </div>
-
-        <button class="card__button button">
-            <i class="material-icons button__icon"> shopping_cart </i>
-            В корзину
-        </button>
-    </article>
-</li>
+<nav class="navBar">
+    <ul>
+        {{#each navItems}}
+        <li><a href="#page{{@index}}">{{this}}</a></li>
+        {{/each}}
+        {{#if name}}
+        <div>Привет {{name}}!</div>
+        {{/if}}
+    </ul>
+</nav>
+{{#each pageContent}}
+<div id="page{{@index}}" class="content" style="background-color: {{bgColor}};">
+    <h2>{{title}}</h2>
+    <div>{{description}}</div>
+</div>
 {{/each}}
+<div id="modal" {{#if name}} style="display: none;" {{/if}}>
+    <div>
+        <h3>Чтобы продолжить, авторизуйтесь</h3>
+        <input id="nameInput" class="dateSaveInput" placeholder="Введите свое имя" autocomplete="off" />
+        <button id="saveUser">Сохранить</button>
+    </div>
+</div>
